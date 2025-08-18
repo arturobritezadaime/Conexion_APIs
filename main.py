@@ -21,22 +21,22 @@ def calcular_inflacion(df: pd.DataFrame) -> pd.DataFrame:
     """Calcula la inflación mensual y acumulada."""
     df_procesado = df.copy()
     
-    # Calcular inflación mensual (%) y redondear
-    df_procesado["Inflacion_Mensual"] = (df_procesado["CPI"].pct_change() * 100).round(2)
-    
     # Filtrar últimos 3 años
     fecha_inicio = df_procesado.index.max() - pd.DateOffset(years=3)
     df_3y = df_procesado.loc[df_procesado.index >= fecha_inicio].copy()
     
+    # ✅ Calcular inflación mensual (%) y redondear en df_3y
+    df_3y["Inflacion_Mensual"] = (df_3y["CPI"].pct_change() * 100).round(2)
+    
     # Crear columnas de año y mes
     df_3y.loc[:, "Año"] = df_3y.index.year
-    df_3y.loc[:, "Mes"] = df_3y.index.month
+    df_3y.loc[:, "Mes"] = df_3y.index.month.astype(str)
     
     # Calcular inflación acumulada del año y redondear
     df_3y.loc[:, "Inflacion_Acumulada_Año"] = df_3y.groupby("Año")["Inflacion_Mensual"].cumsum().round(2)
     
     # Formatear mes con dos dígitos
-    df_3y.loc[:, "Mes"] = df_3y["Mes"].apply(lambda x: f"{x:02d}")
+    df_3y.loc[:, "Mes"] = df_3y["Mes"].apply(lambda x: f"{int(x):02d}")
     
     # Crear columna Año-Mes
     df_3y.loc[:, "Año-Mes"] = df_3y["Año"].astype(str) + "-" + df_3y["Mes"]
