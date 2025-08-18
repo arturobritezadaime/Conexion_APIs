@@ -30,12 +30,14 @@ def calcular_inflacion(df: pd.DataFrame) -> pd.DataFrame:
     
     # Crear columnas de año y mes
     df_3y.loc[:, "Año"] = df_3y.index.year
-    # ✅ Convertir la columna 'Mes' a string ANTES de formatearla
-    df_3y.loc[:, "Mes"] = df_3y.index.month.astype(str)
-
+    df_3y.loc[:, "Mes"] = df_3y.index.month
+    
+    # Calcular inflación acumulada del año y redondear
+    df_3y.loc[:, "Inflacion_Acumulada_Año"] = df_3y.groupby("Año")["Inflacion_Mensual"].cumsum().round(2)
+    
     # Formatear mes con dos dígitos
-    df_3y.loc[:, "Mes"] = df_3y["Mes"].apply(lambda x: f"{int(x):02d}")
-
+    df_3y.loc[:, "Mes"] = df_3y["Mes"].apply(lambda x: f"{x:02d}")
+    
     # Crear columna Año-Mes
     df_3y.loc[:, "Año-Mes"] = df_3y["Año"].astype(str) + "-" + df_3y["Mes"]
     
