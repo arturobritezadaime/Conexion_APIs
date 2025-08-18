@@ -18,6 +18,7 @@ Add your API key to the .env file:
 Fragmento de código
 
 FRED_API_KEY="your_api_key_here"
+
 🚀 How to Run
 Execute the script from your terminal:
 
