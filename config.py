@@ -6,6 +6,8 @@ load_dotenv()
 class Config:
     """Clase de configuración del proyecto."""
     FRED_API_KEY = os.getenv("FRED_API_KEY")
+    NEWSAPI_API_KEY = os.getenv("NEWSAPI_API_KEY")
+    
     SERIE_INFLACION = "CPIAUCSL"  # Índice de Precios al Consumidor (IPC)
     SERIE_PIB = "GDP"  # Producto Interno Bruto (trimestral, en miles de millones de USD)
     SERIE_TASA_INTERES = "FEDFUNDS"  # Tasa de fondos federales (mensual, %)
